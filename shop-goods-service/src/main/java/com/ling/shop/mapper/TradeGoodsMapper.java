@@ -4,10 +4,12 @@ import com.ling.shop.pojo.TradeGoods;
 import com.ling.shop.pojo.TradeGoodsExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 public interface TradeGoodsMapper {
     int countByExample(TradeGoodsExample example);
 
