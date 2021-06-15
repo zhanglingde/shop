@@ -1,0 +1,25 @@
+server:
+  host: http://localhost
+  port: 8080
+  servlet:
+    context-path: /order-web
+
+# dubbo 配置
+dubbo:
+  application:
+    id: dubbo-order-consumer
+    name: dubbo-order-consumer
+  registry:
+    address: zookeeper://192.168.191.128:2181,zookeeper://192.168.191.129:2181,zookeeper://192.168.191.130:2181,zookeeper://192.168.191.131:2181?init.timeout=60000
+    group: shop
+    timeout: 50000
+  protocol:
+    name: dubbo
+
+order:
+  port: 8080
+
+shop:
+  order:
+    baseURI: ${server.host}:${order.port}${server.servlet.path}
+    confirm: /order/confirm
