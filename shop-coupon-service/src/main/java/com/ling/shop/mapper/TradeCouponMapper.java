@@ -4,10 +4,12 @@ import com.ling.shop.pojo.TradeCoupon;
 import com.ling.shop.pojo.TradeCouponExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 public interface TradeCouponMapper {
     int countByExample(TradeCouponExample example);
 

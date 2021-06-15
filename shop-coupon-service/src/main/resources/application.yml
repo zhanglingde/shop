@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: dubbo-coupon-provider
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://121.37.185.192:3306/trade?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: zhangling09
+
+mybatis:
+  type-aliases-package: com.ling.shop.pojo
+  mapper-locations: classpath:com/ling/shop/mapper/*Mapper.xml
+
+# dubbo 配置
+dubbo:
+  application:
+    id: dubbo-coupon-provider
+    name: dubbo-coupon-provider
+  registry:
+    address: zookeeper://192.168.191.128:2181,zookeeper://192.168.191.129:2181,zookeeper://192.168.191.130:2181,zookeeper://192.168.191.131:2181?init.timeout=60000
+    group: shop
+    timeout: 50000
+  protocol:
+    name: dubbo
+    port: 20881
+
+# rocketmq 配置 下单失败消息发送组
+rocketmq:
+  name-server: 192.168.191.128:9876
+  producer:
+    group: orderProducerGroup
+mq:
+  order:
+    consumer:
+      group:
+        name: order_orderTopic_cancel_group
+    topic: orderTopic
