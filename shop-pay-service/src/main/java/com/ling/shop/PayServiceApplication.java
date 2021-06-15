@@ -1,7 +1,7 @@
 package com.ling.shop;
 
-import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
 import com.ling.utils.IDWorker;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @SpringBootApplication
-@EnableDubboConfiguration
+@EnableDubbo
 public class PayServiceApplication {
 
     public static void main(String[] args) {

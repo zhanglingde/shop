@@ -3,12 +3,13 @@ package com.ling.test;
 import com.ling.api.IPayService;
 import com.ling.constant.ShopCode;
 import com.ling.shop.PayServiceApplication;
+import com.ling.shop.mapper.TradePayMapper;
 import com.ling.shop.pojo.TradePay;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,12 +17,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = PayServiceApplication.class)
+@SpringBootTest(classes = PayServiceApplication.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PayServiceTest {
 
     @Autowired
     private IPayService payService;
+
+    @Autowired
+    TradePayMapper tradePayMapper;
 
     @Test
     public void createPayment(){
@@ -45,6 +48,13 @@ public class PayServiceTest {
         payService.callbackPayment(tradePay);
 
         System.in.read();
+
+    }
+
+    @Test
+    public void test01() {
+        TradePay tradePay = tradePayMapper.selectByPrimaryKey(1L);
+        System.out.println("tradePay = " + tradePay);
 
     }
 
