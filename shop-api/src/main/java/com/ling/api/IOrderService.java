@@ -10,6 +10,6 @@ public interface IOrderService {
      * @param order
      * @return
      */
-    public Result confirmOrder(TradeOrder order);
+    Result confirmOrder(TradeOrder order);
 
 }

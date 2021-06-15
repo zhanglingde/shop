@@ -1,61 +1,38 @@
 package com.ling.entity;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 
+/**
+ * 下单失败，MQ 消息对象
+ */
+@Data
 public class MQEntity {
-
+    /**
+     * 订单id
+     */
     private Long orderId;
+    /**
+     * 优惠券id：下单失败退回优惠券
+     */
     private Long couponId;
+    /**
+     * 用户id
+     */
     private Long userId;
+    /**
+     * 使用的余额数：下单失败退回用户余额
+     */
     private BigDecimal userMoney;
+    /**
+     * 商品id：下单失败根据消息返回下单库存
+     */
     private Long goodsId;
+    /**
+     * 商品数量
+     */
     private Integer goodsNum;
 
-    public Long getOrderId() {
-        return orderId;
-    }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Long getCouponId() {
-        return couponId;
-    }
-
-    public void setCouponId(Long couponId) {
-        this.couponId = couponId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public BigDecimal getUserMoney() {
-        return userMoney;
-    }
-
-    public void setUserMoney(BigDecimal userMoney) {
-        this.userMoney = userMoney;
-    }
-
-    public Long getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Long goodsId) {
-        this.goodsId = goodsId;
-    }
-
-    public Integer getGoodsNum() {
-        return goodsNum;
-    }
-
-    public void setGoodsNum(Integer goodsNum) {
-        this.goodsNum = goodsNum;
-    }
 }

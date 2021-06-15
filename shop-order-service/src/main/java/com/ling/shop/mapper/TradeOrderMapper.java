@@ -4,10 +4,12 @@ import com.ling.shop.pojo.TradeOrder;
 import com.ling.shop.pojo.TradeOrderExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 public interface TradeOrderMapper {
     int countByExample(TradeOrderExample example);
 

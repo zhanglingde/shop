@@ -2,9 +2,10 @@ package com.ling.test;
 
 import com.ling.api.IOrderService;
 import com.ling.shop.OrderServiceApplication;
+import com.ling.shop.mapper.TradeOrderMapper;
 import com.ling.shop.pojo.TradeOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -12,12 +13,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = OrderServiceApplication.class)
+
+@SpringBootTest(classes = OrderServiceApplication.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrderServiceTest {
 
     @Autowired
     private IOrderService orderService;
+
+    @Autowired
+    TradeOrderMapper tradeOrderMapper;
 
     @Test
     public void confirmOrder() throws IOException {
@@ -40,6 +44,13 @@ public class OrderServiceTest {
 
         System.in.read();
 
+    }
+
+    @Test
+    public void test01() {
+
+        TradeOrder tradeOrder = tradeOrderMapper.selectByPrimaryKey(1L);
+        System.out.println(tradeOrder);
     }
 
 }

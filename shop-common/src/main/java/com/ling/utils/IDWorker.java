@@ -1,5 +1,8 @@
 package com.ling.utils;
 
+/**
+ * Twitter雪花算法 生成id
+ */
 public class IDWorker {
 
     /**
