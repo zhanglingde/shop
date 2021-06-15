@@ -1,6 +1,5 @@
 package com.ling.shop.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.ling.api.IUserService;
 import com.ling.constant.ShopCode;
 import com.ling.entity.Result;
@@ -10,14 +9,14 @@ import com.ling.shop.mapper.TradeUserMoneyLogMapper;
 import com.ling.shop.pojo.TradeUser;
 import com.ling.shop.pojo.TradeUserMoneyLog;
 import com.ling.shop.pojo.TradeUserMoneyLogExample;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Component
-@Service(interfaceClass = IUserService.class)
+@Service
 public class UserServiceImpl implements IUserService{
 
     @Autowired

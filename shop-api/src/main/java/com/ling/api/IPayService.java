@@ -8,8 +8,22 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 
 public interface IPayService {
 
-    public Result createPayment(TradePay tradePay);
+    /**
+     * 支付订单
+     * @param tradePay
+     * @return
+     */
+    Result createPayment(TradePay tradePay);
 
-    public Result callbackPayment(TradePay tradePay) throws InterruptedException, RemotingException, MQClientException, MQBrokerException;
+    /**
+     * 订单支付成功后回调修改订单状态
+     * @param tradePay
+     * @return
+     * @throws InterruptedException
+     * @throws RemotingException
+     * @throws MQClientException
+     * @throws MQBrokerException
+     */
+    Result callbackPayment(TradePay tradePay) throws InterruptedException, RemotingException, MQClientException, MQBrokerException;
 
 }
