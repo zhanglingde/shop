@@ -73,7 +73,7 @@ public class OrderServiceImpl implements IOrderService {
             reduceMoneyPaid(order);
 
             //模拟异常抛出
-            //CastException.cast(ShopCode.SHOP_FAIL);
+            CastException.cast(ShopCode.SHOP_FAIL);
 
             //6.确认订单
             updateOrderStatus(order);
@@ -92,6 +92,7 @@ public class OrderServiceImpl implements IOrderService {
             //2.返回订单确认失败消息（同步消息）
             try {
                 sendCancelOrder(topic, tag, order.getOrderId().toString(), JSON.toJSONString(mqEntity));
+
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -110,6 +111,7 @@ public class OrderServiceImpl implements IOrderService {
     private void sendCancelOrder(String topic, String tag, String keys, String body) throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
         Message message = new Message(topic, tag, keys, body.getBytes());
         rocketMQTemplate.getProducer().send(message);
+        log.info("发送订单确认失败消息..." + message);
     }
 
     /**
@@ -285,6 +287,7 @@ public class OrderServiceImpl implements IOrderService {
 
     /**
      * 校验订单
+     *
      * @param order
      */
     private void checkOrder(TradeOrder order) {

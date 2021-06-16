@@ -33,7 +33,7 @@ public class CancelMQListener implements RocketMQListener<MessageExt>{
             //1. 解析消息内容
             String body = new String(messageExt.getBody(),"UTF-8");
             MQEntity mqEntity = JSON.parseObject(body, MQEntity.class);
-            log.info("接受消息成功");
+            log.info("接受到取消订单消息...");
             //2. 查询订单
             TradeOrder order = orderMapper.selectByPrimaryKey(mqEntity.getOrderId());
             //3.更新订单状态为取消

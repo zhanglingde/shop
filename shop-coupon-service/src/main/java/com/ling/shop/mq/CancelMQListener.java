@@ -21,7 +21,7 @@ import java.io.UnsupportedEncodingException;
  */
 @Slf4j
 @Component
-@RocketMQMessageListener(topic = "${mq.order.topic}", consumerGroup = "${mq.order.consumer.group.name}", messageModel = MessageModel.BROADCASTING)
+@RocketMQMessageListener(topic = "orderTopic", consumerGroup = "${mq.order.consumer.group.name}", messageModel = MessageModel.BROADCASTING)
 public class CancelMQListener implements RocketMQListener<MessageExt> {
 
 

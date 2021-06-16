@@ -52,7 +52,7 @@ public class CancelMQListener implements RocketMQListener<MessageExt> {
             keys = messageExt.getKeys();
             body = new String(messageExt.getBody(), "UTF-8");
 
-            log.info("接受消息成功");
+            log.info("回退库存接受到消息...");
 
             //2. 查询消息消费记录
             TradeMqConsumerLogKey primaryKey = new TradeMqConsumerLogKey();

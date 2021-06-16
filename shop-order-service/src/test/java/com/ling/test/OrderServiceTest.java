@@ -24,8 +24,7 @@ public class OrderServiceTest {
     TradeOrderMapper tradeOrderMapper;
 
     /**
-     * 测试下单
-     * @throws IOException
+     * 正常下单测试案例
      */
     @Test
     public void confirmOrder() throws IOException {
@@ -49,6 +48,29 @@ public class OrderServiceTest {
 
         System.in.read();
 
+    }
+
+    // 下单异常测试案例
+    @Test
+    public void confirmOrder2() throws IOException {
+        Long coupouId = 345988230098857984L;
+        Long goodsId = 345959443973935104L;
+        Long userId = 345963634385633280L;
+
+        TradeOrder order = new TradeOrder();
+        order.setGoodsId(goodsId);
+        order.setUserId(userId);
+        order.setCouponId(coupouId);
+        order.setAddress("北京");
+        order.setConsignee("张三");
+        order.setGoodsNumber(2);
+        order.setGoodsPrice(new BigDecimal(5000));
+        order.setShippingFee(BigDecimal.ZERO);
+        order.setOrderAmount(new BigDecimal(10000));
+        order.setMoneyPaid(new BigDecimal(200));
+        orderService.confirmOrder(order);
+
+        System.in.read();
     }
 
     @Test
