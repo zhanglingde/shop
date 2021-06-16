@@ -15,7 +15,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 
-
+/**
+ * 监听下单失败消息：回退优惠券
+ *
+ */
 @Slf4j
 @Component
 @RocketMQMessageListener(topic = "${mq.order.topic}", consumerGroup = "${mq.order.consumer.group.name}", messageModel = MessageModel.BROADCASTING)
@@ -32,12 +35,13 @@ public class CancelMQListener implements RocketMQListener<MessageExt> {
             //1. 解析消息内容
             String body = new String(message.getBody(), "UTF-8");
             MQEntity mqEntity = JSON.parseObject(body, MQEntity.class);
-            log.info("接收到消息");
+            log.info("回退优惠券接收到消息...");
             if(mqEntity.getCouponId()!=null){
                 //2. 查询优惠券信息
                 TradeCoupon coupon = couponMapper.selectByPrimaryKey(mqEntity.getCouponId());
                 //3.更改优惠券状态
                 coupon.setUsedTime(null);
+                coupon.setUserId(null);
                 coupon.setIsUsed(ShopCode.SHOP_COUPON_UNUSED.getCode());
                 coupon.setOrderId(null);
                 couponMapper.updateByPrimaryKey(coupon);

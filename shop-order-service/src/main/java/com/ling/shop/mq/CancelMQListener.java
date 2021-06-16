@@ -15,7 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 
-
+/**
+ * 订单服务监听下单失败消息：取消订单
+ */
 @Slf4j
 @Component
 @RocketMQMessageListener(topic = "${mq.order.topic}",consumerGroup = "${mq.order.consumer.group.name}",messageModel = MessageModel.BROADCASTING )

@@ -6,6 +6,7 @@ import com.ling.constant.ShopCode;
 import com.ling.entity.MQEntity;
 import com.ling.shop.pojo.TradeUserMoneyLog;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.MessageModel;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -16,14 +17,16 @@ import org.springframework.stereotype.Component;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 
-
+/**
+ * 监听下单失败消息，回退余额
+ */
 @Slf4j
 @Component
 @RocketMQMessageListener(topic = "${mq.order.topic}",consumerGroup = "${mq.order.consumer.group.name}",messageModel = MessageModel.BROADCASTING )
 public class CancelMQListener implements RocketMQListener<MessageExt>{
 
 
-    @Autowired
+    @Reference
     private IUserService userService;
 
     @Override
@@ -33,7 +36,7 @@ public class CancelMQListener implements RocketMQListener<MessageExt>{
             //1.解析消息
             String body = new String(messageExt.getBody(), "UTF-8");
             MQEntity mqEntity = JSON.parseObject(body, MQEntity.class);
-            log.info("接收到消息");
+            log.info("接收到回退余额消息...");
             if(mqEntity.getUserMoney()!=null && mqEntity.getUserMoney().compareTo(BigDecimal.ZERO)>0){
                 //2.调用业务层,进行余额修改
                 TradeUserMoneyLog userMoneyLog = new TradeUserMoneyLog();
