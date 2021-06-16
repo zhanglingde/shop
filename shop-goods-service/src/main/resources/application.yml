@@ -35,7 +35,7 @@ rocketmq:
     group: orderProducerGroup
 mq:
   order:
+    topic: orderTopic
     consumer:
       group:
         name: order_orderTopic_cancel_group
-    topic: orderTopic

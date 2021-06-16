@@ -22,6 +22,11 @@ public interface TradeMqConsumerLogMapper {
 
     List<TradeMqConsumerLog> selectByExample(TradeMqConsumerLogExample example);
 
+    /**
+     * 查询消息消费日志
+     * @param key
+     * @return
+     */
     TradeMqConsumerLog selectByPrimaryKey(TradeMqConsumerLogKey key);
 
     int updateByExampleSelective(@Param("record") TradeMqConsumerLog record, @Param("example") TradeMqConsumerLogExample example);

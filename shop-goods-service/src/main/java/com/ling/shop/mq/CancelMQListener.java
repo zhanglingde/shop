@@ -18,11 +18,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-
+/**
+ * 监听订单消息 orderTopic，
+ */
 @Slf4j
 @Component
-@RocketMQMessageListener(topic = "${mq.order.topic}",consumerGroup = "${mq.order.consumer.group.name}",messageModel = MessageModel.BROADCASTING )
-public class CancelMQListener implements RocketMQListener<MessageExt>{
+@RocketMQMessageListener(topic = "${mq.order.topic}", consumerGroup = "${mq.order.consumer.group.name}", messageModel = MessageModel.BROADCASTING)
+public class CancelMQListener implements RocketMQListener<MessageExt> {
 
 
     @Value("${mq.order.consumer.group.name}")
@@ -39,16 +41,16 @@ public class CancelMQListener implements RocketMQListener<MessageExt>{
 
     @Override
     public void onMessage(MessageExt messageExt) {
-        String msgId=null;
-        String tags=null;
-        String keys=null;
-        String body=null;
+        String msgId = null;
+        String tags = null;
+        String keys = null;
+        String body = null;
         try {
             //1. 解析消息内容
             msgId = messageExt.getMsgId();
-            tags= messageExt.getTags();
-            keys= messageExt.getKeys();
-            body= new String(messageExt.getBody(),"UTF-8");
+            tags = messageExt.getTags();
+            keys = messageExt.getKeys();
+            body = new String(messageExt.getBody(), "UTF-8");
 
             log.info("接受消息成功");
 
@@ -59,28 +61,28 @@ public class CancelMQListener implements RocketMQListener<MessageExt>{
             primaryKey.setGroupName(groupName);
             TradeMqConsumerLog mqConsumerLog = mqConsumerLogMapper.selectByPrimaryKey(primaryKey);
 
-            if(mqConsumerLog!=null){
+            if (mqConsumerLog != null) {
                 //3. 判断如果消费过...
                 //3.1 获得消息处理状态
                 Integer status = mqConsumerLog.getConsumerStatus();
                 //处理过...返回
-                if(ShopCode.SHOP_MQ_MESSAGE_STATUS_SUCCESS.getCode().intValue()==status.intValue()){
-                    log.info("消息:"+msgId+",已经处理过");
+                if (ShopCode.SHOP_MQ_MESSAGE_STATUS_SUCCESS.getCode().intValue() == status.intValue()) {
+                    log.info("消息:" + msgId + ",已经处理过");
                     return;
                 }
 
                 //正在处理...返回
-                if(ShopCode.SHOP_MQ_MESSAGE_STATUS_PROCESSING.getCode().intValue()==status.intValue()){
-                    log.info("消息:"+msgId+",正在处理");
+                if (ShopCode.SHOP_MQ_MESSAGE_STATUS_PROCESSING.getCode().intValue() == status.intValue()) {
+                    log.info("消息:" + msgId + ",正在处理");
                     return;
                 }
 
                 //处理失败
-                if(ShopCode.SHOP_MQ_MESSAGE_STATUS_FAIL.getCode().intValue()==status.intValue()){
+                if (ShopCode.SHOP_MQ_MESSAGE_STATUS_FAIL.getCode().intValue() == status.intValue()) {
                     //获得消息处理次数
                     Integer times = mqConsumerLog.getConsumerTimes();
-                    if(times>3){
-                        log.info("消息:"+msgId+",消息处理超过3次,不能再进行处理了");
+                    if (times > 3) {
+                        log.info("消息:" + msgId + ",消息处理超过3次,不能再进行处理了");
                         return;
                     }
                     mqConsumerLog.setConsumerStatus(ShopCode.SHOP_MQ_MESSAGE_STATUS_PROCESSING.getCode());
@@ -93,13 +95,13 @@ public class CancelMQListener implements RocketMQListener<MessageExt>{
                     criteria.andGroupNameEqualTo(groupName);
                     criteria.andConsumerTimesEqualTo(mqConsumerLog.getConsumerTimes());
                     int r = mqConsumerLogMapper.updateByExampleSelective(mqConsumerLog, example);
-                    if(r<=0){
+                    if (r <= 0) {
                         //未修改成功,其他线程并发修改
                         log.info("并发修改,稍后处理");
                     }
                 }
 
-            }else{
+            } else {
                 //4. 判断如果没有消费过...
                 mqConsumerLog = new TradeMqConsumerLog();
                 mqConsumerLog.setMsgTag(tags);
@@ -113,11 +115,11 @@ public class CancelMQListener implements RocketMQListener<MessageExt>{
                 //将消息处理信息添加到数据库
                 mqConsumerLogMapper.insert(mqConsumerLog);
             }
-            //5. 回退库存
+            //5. 回退库存（根据商品id，和扣减的数量回退库存）
             MQEntity mqEntity = JSON.parseObject(body, MQEntity.class);
             Long goodsId = mqEntity.getGoodsId();
             TradeGoods goods = goodsMapper.selectByPrimaryKey(goodsId);
-            goods.setGoodsNumber(goods.getGoodsNumber()+mqEntity.getGoodsNum());
+            goods.setGoodsNumber(goods.getGoodsNumber() + mqEntity.getGoodsNum());
             goodsMapper.updateByPrimaryKey(goods);
 
 
@@ -128,12 +130,13 @@ public class CancelMQListener implements RocketMQListener<MessageExt>{
             log.info("回退库存成功");
         } catch (Exception e) {
             e.printStackTrace();
+            // 消息处理失败，消息消费记录表中处理次数+1
             TradeMqConsumerLogKey primaryKey = new TradeMqConsumerLogKey();
             primaryKey.setMsgTag(tags);
             primaryKey.setMsgKey(keys);
             primaryKey.setGroupName(groupName);
             TradeMqConsumerLog mqConsumerLog = mqConsumerLogMapper.selectByPrimaryKey(primaryKey);
-            if(mqConsumerLog==null){
+            if (mqConsumerLog == null) {
                 //数据库未有记录
                 mqConsumerLog = new TradeMqConsumerLog();
                 mqConsumerLog.setMsgTag(tags);
@@ -144,8 +147,8 @@ public class CancelMQListener implements RocketMQListener<MessageExt>{
                 mqConsumerLog.setMsgId(msgId);
                 mqConsumerLog.setConsumerTimes(1);
                 mqConsumerLogMapper.insert(mqConsumerLog);
-            }else{
-                mqConsumerLog.setConsumerTimes(mqConsumerLog.getConsumerTimes()+1);
+            } else {
+                mqConsumerLog.setConsumerTimes(mqConsumerLog.getConsumerTimes() + 1);
                 mqConsumerLogMapper.updateByPrimaryKeySelective(mqConsumerLog);
             }
         }

@@ -34,12 +34,12 @@ rocketmq:
 # 系统使用 mq 常量
 mq:
   order:
-    consumer:
-      group:
-        name: order_orderTopic_cancel_group
     topic: orderTopic
     tag:
       cancel: order_cancel
+    consumer:
+      group:
+        name: order_orderTopic_cancel_group
   pay:
     topic: payTopic
     consumer:
