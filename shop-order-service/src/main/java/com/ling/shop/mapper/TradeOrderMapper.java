@@ -17,6 +17,11 @@ public interface TradeOrderMapper {
 
     int deleteByPrimaryKey(Long orderId);
 
+    /**
+     * 保存预订单数据
+     * @param record
+     * @return
+     */
     int insert(TradeOrder record);
 
     int insertSelective(TradeOrder record);

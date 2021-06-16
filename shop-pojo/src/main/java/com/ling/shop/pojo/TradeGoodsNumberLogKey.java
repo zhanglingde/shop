@@ -1,25 +1,19 @@
 package com.ling.shop.pojo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
+@Data
 public class TradeGoodsNumberLogKey implements Serializable {
+    /**
+     * 商品 id
+     */
     private Long goodsId;
 
+    /**
+     * 订单 id
+     */
     private Long orderId;
 
-    public Long getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Long goodsId) {
-        this.goodsId = goodsId;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
 }

@@ -54,7 +54,7 @@ public class TradeOrder implements Serializable {
     /**
      * 商品总价
      */
-    private Long goodsAmount;
+    private BigDecimal goodsAmount;
     /**
      * 运费
      */

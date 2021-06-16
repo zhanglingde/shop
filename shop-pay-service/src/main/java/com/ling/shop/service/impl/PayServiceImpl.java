@@ -1,6 +1,5 @@
 package com.ling.shop.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.ling.api.IPayService;
 import com.ling.constant.ShopCode;
@@ -13,6 +12,7 @@ import com.ling.shop.pojo.TradePay;
 import com.ling.shop.pojo.TradePayExample;
 import com.ling.utils.IDWorker;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Service;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.SendResult;

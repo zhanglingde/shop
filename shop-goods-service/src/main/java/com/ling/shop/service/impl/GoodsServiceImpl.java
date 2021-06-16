@@ -1,6 +1,5 @@
 package com.ling.shop.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.ling.api.IGoodsService;
 import com.ling.constant.ShopCode;
 import com.ling.entity.Result;
@@ -9,6 +8,7 @@ import com.ling.shop.mapper.TradeGoodsMapper;
 import com.ling.shop.mapper.TradeGoodsNumberLogMapper;
 import com.ling.shop.pojo.TradeGoods;
 import com.ling.shop.pojo.TradeGoodsNumberLog;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +35,7 @@ public class GoodsServiceImpl implements IGoodsService {
     @Override
     public Result reduceGoodsNum(TradeGoodsNumberLog goodsNumberLog) {
         if (goodsNumberLog == null ||
-                goodsNumberLog.getGoodsNumber() == null ||
+                goodsNumberLog.getGoodsId() == null ||
                 goodsNumberLog.getOrderId() == null ||
                 goodsNumberLog.getGoodsNumber() == null ||
                 goodsNumberLog.getGoodsNumber().intValue() <= 0) {

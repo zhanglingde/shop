@@ -1,35 +1,22 @@
 package com.ling.shop.pojo;
 
+import lombok.Data;
+
 import java.io.Serializable;
-
+@Data
 public class TradeUserMoneyLogKey implements Serializable {
+    /**
+     * 用户id
+     */
     private Long userId;
-
+    /**
+     * 订单id
+     */
     private Long orderId;
-
+    /**
+     * 余额操作类型，1：付款，2：退款
+     */
     private Integer moneyLogType;
 
-    public Long getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public Integer getMoneyLogType() {
-        return moneyLogType;
-    }
-
-    public void setMoneyLogType(Integer moneyLogType) {
-        this.moneyLogType = moneyLogType;
-    }
 }

@@ -23,6 +23,11 @@ public interface TradeGoodsMapper {
 
     List<TradeGoods> selectByExample(TradeGoodsExample example);
 
+    /**
+     * 根据主键查询订单详情
+     * @param goodsId
+     * @return
+     */
     TradeGoods selectByPrimaryKey(Long goodsId);
 
     int updateByExampleSelective(@Param("record") TradeGoods record, @Param("example") TradeGoodsExample example);

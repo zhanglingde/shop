@@ -15,7 +15,6 @@ import com.ling.shop.pojo.*;
 import com.ling.utils.IDWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.Message;
@@ -24,6 +23,7 @@ import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -157,6 +157,7 @@ public class OrderServiceImpl implements IOrderService {
         if (order.getCouponId() != null) {
             TradeCoupon coupon = couponService.findOne(order.getCouponId());
             coupon.setOrderId(order.getOrderId());
+            coupon.setUserId(order.getUserId());
             coupon.setIsUsed(ShopCode.SHOP_COUPON_ISUSED.getCode());
             coupon.setUsedTime(new Date());
 
@@ -207,6 +208,7 @@ public class OrderServiceImpl implements IOrderService {
         }
         //4. 核算订单总金额是否合法
         BigDecimal orderAmount = order.getGoodsPrice().multiply(new BigDecimal(order.getGoodsNumber()));
+        order.setGoodsAmount(orderAmount);
         orderAmount.add(shippingFee);
         if (order.getOrderAmount().compareTo(orderAmount) != 0) {
             CastException.cast(ShopCode.SHOP_ORDERAMOUNT_INVALID);
@@ -264,10 +266,10 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     /**
-     * 核算运费
+     * 核算运费：
      *
-     * @param orderAmount
-     * @return
+     * @param orderAmount 订单金额
+     * @return 订单金额大于100免运费，小于100运费10
      */
     private BigDecimal calculateShippingFee(BigDecimal orderAmount) {
         if (orderAmount.compareTo(new BigDecimal(100)) == 1) {
@@ -283,7 +285,6 @@ public class OrderServiceImpl implements IOrderService {
 
     /**
      * 校验订单
-     *
      * @param order
      */
     private void checkOrder(TradeOrder order) {

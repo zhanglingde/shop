@@ -31,5 +31,10 @@ public interface TradeCouponMapper {
 
     int updateByPrimaryKeySelective(TradeCoupon record);
 
+    /**
+     * 更新优惠券使用状态
+     * @param record
+     * @return
+     */
     int updateByPrimaryKey(TradeCoupon record);
 }

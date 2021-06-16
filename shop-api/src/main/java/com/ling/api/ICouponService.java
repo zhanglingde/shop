@@ -14,10 +14,10 @@ public interface ICouponService {
      * @param coupouId
      * @return
      */
-    public TradeCoupon findOne(Long coupouId);
+    TradeCoupon findOne(Long coupouId);
 
     /**
-     * 更细优惠券状态
+     * 更新优惠券状态
      * @param coupon
      * @return
      */
