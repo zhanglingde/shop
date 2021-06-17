@@ -69,7 +69,7 @@ public class PayServiceImpl implements IPayService{
         TradePayExample example = new TradePayExample();
         TradePayExample.Criteria criteria = example.createCriteria();
         criteria.andOrderIdEqualTo(tradePay.getOrderId());
-        criteria.andIsPaidEqualTo(ShopCode.SHOP_PAYMENT_IS_PAID.getCode());
+        criteria.andIsPaidEqualTo(ShopCode.SHOP_ORDER_PAY_STATUS_IS_PAY.getCode());
         int r = tradePayMapper.countByExample(example);
         if(r>0){
             CastException.cast(ShopCode.SHOP_PAYMENT_IS_PAID);
@@ -85,7 +85,7 @@ public class PayServiceImpl implements IPayService{
 
     @Override
     public Result callbackPayment(TradePay tradePay) throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
-        log.info("支付回调");
+        log.info("支付回调修改订单状态...");
         //1. 判断用户支付状态
         if(tradePay.getIsPaid().intValue()==ShopCode.SHOP_ORDER_PAY_STATUS_IS_PAY.getCode().intValue()){
             //2. 更新支付订单状态为已支付

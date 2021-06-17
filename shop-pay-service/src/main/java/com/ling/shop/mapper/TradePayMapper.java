@@ -14,6 +14,11 @@ public interface TradePayMapper {
 
     int deleteByPrimaryKey(Long payId);
 
+    /**
+     * 新增支付订单
+     * @param record
+     * @return
+     */
     int insert(TradePay record);
 
     int insertSelective(TradePay record);

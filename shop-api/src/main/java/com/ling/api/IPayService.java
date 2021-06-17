@@ -9,7 +9,7 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 public interface IPayService {
 
     /**
-     * 支付订单
+     * 创建支付订单
      * @param tradePay
      * @return
      */
