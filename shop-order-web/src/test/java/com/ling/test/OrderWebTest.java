@@ -3,8 +3,7 @@ package com.ling.test;
 import com.ling.entity.Result;
 import com.ling.shop.OrderWebApplication;
 import com.ling.shop.pojo.TradeOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,19 +12,17 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest(classes = OrderWebApplication.class)
 public class OrderWebTest {
 
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${shop.order.baseURI}")
-    private String baseURI;
 
-    @Value("${shop.order.confirm}")
-    private String confirmOrderPath;
-
+    /**
+     * web 调用接口下单
+     */
     @Test
     public void confirmOrder(){
         Long coupouId = 345988230098857984L;
@@ -38,12 +35,13 @@ public class OrderWebTest {
         order.setCouponId(coupouId);
         order.setAddress("北京");
         order.setGoodsNumber(1);
-        order.setGoodsPrice(new BigDecimal(1000));
+        order.setGoodsPrice(new BigDecimal(5000));
         order.setShippingFee(BigDecimal.ZERO);
-        order.setOrderAmount(new BigDecimal(1000));
-        order.setMoneyPaid(new BigDecimal(100));
+        order.setOrderAmount(new BigDecimal(5000));
+        order.setMoneyPaid(new BigDecimal(200));
 
-        Result result = restTemplate.postForEntity(baseURI + confirmOrderPath, order, Result.class).getBody();
+        String url = "http://localhost:8084/order/confirm";
+        Result result = restTemplate.postForEntity(url, order, Result.class).getBody();
 
         System.out.println(result);
     }
