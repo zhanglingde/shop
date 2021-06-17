@@ -15,10 +15,12 @@ import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 
-
+/**
+ * 监听订单支付成功修改订单状态
+ */
 @Slf4j
 @Component
-@RocketMQMessageListener(topic = "${mq.pay.topic}",consumerGroup = "${mq.pay.consumer.group.name}",messageModel = MessageModel.BROADCASTING)
+@RocketMQMessageListener(topic = "payTopic",consumerGroup = "${mq.pay.consumer.group.name}",messageModel = MessageModel.BROADCASTING)
 public class PaymentListener implements RocketMQListener<MessageExt>{
 
     @Autowired
@@ -27,7 +29,7 @@ public class PaymentListener implements RocketMQListener<MessageExt>{
     @Override
     public void onMessage(MessageExt messageExt) {
 
-        log.info("接收到支付成功消息");
+        log.info("接收到支付成功消息...");
 
         try {
             //1.解析消息内容

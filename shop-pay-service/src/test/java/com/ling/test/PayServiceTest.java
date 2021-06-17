@@ -26,20 +26,22 @@ public class PayServiceTest {
     @Autowired
     TradePayMapper tradePayMapper;
 
+    // 创建支付订单
     @Test
     public void createPayment(){
-        long orderId = 351526299216515072L;
+        long orderId = 602863868900937728L;
         TradePay tradePay = new TradePay();
         tradePay.setOrderId(orderId);
         tradePay.setPayAmount(new BigDecimal(880));
         payService.createPayment(tradePay);
     }
 
+    // 订单付款
     @Test
     public void callbackPayment() throws InterruptedException, RemotingException, MQClientException, MQBrokerException, IOException {
 
-        long payId = 352516176372441088L;
-        long orderId = 351526299216515072L;
+        long payId = 602864628237737984L;
+        long orderId = 602863868900937728L;
 
         TradePay tradePay = new TradePay();
         tradePay.setPayId(payId);

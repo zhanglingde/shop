@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-//@EnableDubbo(scanBasePackages = "com.ling.shop")
+@EnableDubbo(scanBasePackages = "com.ling.shop")
 public class OrderServiceApplication {
 
     public static void main(String[] args) {
